@@ -36,7 +36,7 @@ public class Day01 : DayX
 
     public override void Part2()
     {
-    var rawMeasurements = @"199
+        var rawMeasurements = @"199
 200
 208
 210
@@ -46,34 +46,34 @@ public class Day01 : DayX
 269
 260
 263";
-    var measurements = rawMeasurements.Split(Environment.NewLine).Select(x => int.Parse(x)).ToList();
-    
-    // larger measurements
+        var measurements = rawMeasurements.Split(Environment.NewLine).Select(x => int.Parse(x)).ToList();
+        
+        // larger measurements
 
-    /*
-    note we only need to check first A and last B to see if they are larger
-    the rest of the measurements are the same
-    199  A      
-    200  A B    
-    208  A B C  
-    210    B C D
-    */
-    int answer = 0;
-    int windowSize = 3;
+        /*
+        note we only need to check first A and last B to see if they are larger
+        the rest of the measurements are the same
+        199  A      
+        200  A B    
+        208  A B C  
+        210    B C D
+        */
+        int answer = 0;
+        int windowSize = 3;
 
-    for (int i = windowSize; i < measurements.Count; ++i)
-    {
-        int prev = measurements[i - windowSize];
-        int current = measurements[i];
-
-        bool isLarger = current > prev;
-
-        if(isLarger)
+        for (int i = windowSize; i < measurements.Count; ++i)
         {
-            ++answer;
-        }
-    }
+            int prev = measurements[i - windowSize];
+            int current = measurements[i];
 
-    Console.WriteLine(answer);
-}
+            bool isLarger = current > prev;
+
+            if(isLarger)
+            {
+                ++answer;
+            }
+        }
+
+        Console.WriteLine(answer);
+    }
 }
