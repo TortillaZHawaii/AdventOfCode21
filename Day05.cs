@@ -56,8 +56,79 @@ public class Day05 : DayX
 
     public override void Part2()
     {
-        throw new NotImplementedException();
-    }
+        var lines = GetLines(input);
+        int size = GetBoardSize(lines) + 1;
+
+        var board = new int[size, size];
+
+        foreach (var line in lines)
+        {
+            //Console.WriteLine(line);
+            bool isHorizontal = line.Start.Y == line.End.Y;
+            bool isVertical = line.Start.X == line.End.X;
+            bool isDiagonalToRight = (line.Start.X - line.End.X) == (line.Start.Y - line.End.Y);
+            bool isDiagonalToLeft = (line.Start.X - line.End.X) == (line.End.Y - line.Start.Y);
+
+            if(isHorizontal)
+            {
+                var min = Math.Min(line.Start.X, line.End.X);
+                var max = Math.Max(line.Start.X, line.End.X);
+                for(int i = min; i <= max; i++)
+                {
+                    ++board[i, line.Start.Y];
+                }
+            }
+            else if(isVertical)
+            {
+                var min = Math.Min(line.Start.Y, line.End.Y);
+                var max = Math.Max(line.Start.Y, line.End.Y);
+                for(int i = min; i <= max; i++)
+                {
+                    ++board[line.Start.X, i];
+                }
+            }
+            else if(isDiagonalToRight)
+            {
+                int min = Math.Min(line.Start.X, line.End.X);
+                int max = Math.Max(line.Start.X, line.End.X);
+                int startY = Math.Min(line.Start.Y, line.End.Y);
+
+                for(int i = min; i <= max; i++)
+                {
+                    ++board[i, startY + (i - min)];
+                }
+            }
+            else if(isDiagonalToLeft)
+            {
+                int min = Math.Min(line.Start.X, line.End.X); // 7
+                int max = Math.Max(line.Start.X, line.End.X); // 9
+                int startY = Math.Max(line.Start.Y, line.End.Y); // 7
+
+                for(int i = max; i >= min; i--)
+                {
+                    ++board[i, startY - (i - min)];
+                }
+            }
+        }
+
+
+        int overlapCount = 0;
+        for(int i = 0; i < size; i++)
+        {
+            for(int j = 0; j < size; j++)
+            {
+                //Console.Write(board[i, j] + " ");
+                if(board[i, j] > 1)
+                {
+                    ++overlapCount;
+                }
+            }
+            //Console.WriteLine();
+        }
+
+        Console.WriteLine($"Overlap count: {overlapCount}");
+    }               
+
 
     private record Point(int X, int Y);
     private record Line(Point Start, Point End);
