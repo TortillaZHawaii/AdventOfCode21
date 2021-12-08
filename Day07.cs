@@ -18,7 +18,26 @@ public class Day07 : DayX
 
     public override void Part2()
     {
-        throw new NotImplementedException();
+        var input = ParseInput(_input);
+
+        // naive 
+        int smallest = int.MaxValue;
+
+        int min = input.Min();
+        int max = input.Max();
+
+        for(int i = min; i <= max; i++)
+        {
+            int sum = input.Sum(x => 
+            {
+                int distance = Math.Abs(x - i);
+                return (distance + 1) * distance / 2;
+            });
+            
+            smallest = Math.Min(smallest, sum);
+        }
+
+        Console.WriteLine($"Part 2: {smallest}");
     }
 
     private List<int> ParseInput(string input)
